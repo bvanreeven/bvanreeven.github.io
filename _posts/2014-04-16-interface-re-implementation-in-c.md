@@ -7,7 +7,7 @@ tags: [C#]
 ---
 {% include JB/setup %}
 
-Yesterday I came across the concept of interface re-implementation in C#. Say you have the following classes and interfaces:
+Yesterday I came across the concept of interface re-implementation in C#. It is possible to restate an interface on a class that already inherits that interface from its base class or another interface. For example, say you have the following classes and interfaces:
 
 {% highlight c# %}
 interface IBaby
