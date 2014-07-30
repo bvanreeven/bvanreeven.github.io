@@ -3,7 +3,7 @@ layout: post
 title: "Interface re-implementation in C#"
 description: ""
 category: Programming 
-tags: [C#]
+tags: [C#, .NET]
 ---
 {% include JB/setup %}
 
