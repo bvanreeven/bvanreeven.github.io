@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Microflow Solitaire</title>
+    <style type="text/css">
+
+      body {
+        color: #000000;
+        background-color: #ffffff;
+        margin: 0px;
+        cursor: pointer;
+        overflow: hidden;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <script>
+
+      var info = document.createElement( 'div' );
+      info.style.position = 'absolute';
+      info.style.top = '10px';
+      info.style.width = '100%';
+      info.style.fontFamily = 'Monospace';
+      info.style.textAlign = 'center';
+      info.innerHTML = 'click and win!';
+      document.body.appendChild( info );
+
+      var canvas = document.createElement( 'canvas' );
+      canvas.style.position = 'absolute';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild( canvas );
+
+      var context = canvas.getContext( '2d' );
+
+      var id = 0;
+
+      var cwidth = 121, cwidthhalf = cwidth / 2;
+      var cheight = 61, cheighthalf = cheight / 2;
+
+      var particles = [];
+
+      var Particle = function ( id, x, y, sx, sy ) {
+
+        if ( sx === 0 ) sx = 2;
+
+        var cx = ( id % 4 ) * cwidth;
+        var cy = Math.floor( id / 4 ) * cheight;
+
+        this.update = function () {
+
+          x += sx;
+          y += sy;
+
+          if ( x < ( - cwidthhalf ) || x > ( canvas.width + cwidthhalf ) ) {
+
+            var index = particles.indexOf( this );
+            particles.splice( index, 1 );
+
+            return false;
+
+          }
+
+          if ( y > canvas.height - cheighthalf ) {
+
+            y = canvas.height - cheighthalf;
+            sy = - sy * 0.85;
+
+          }
+
+          sy += 0.98;
+
+          context.drawImage( image, cx, cy, cwidth, cheight, Math.floor( x - cwidthhalf ), Math.floor( y - cheighthalf ), cwidth, cheight );
+
+          return true;
+
+        }
+
+      }
+
+      var image = document.createElement( 'img' );
+      image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAA9CAYAAACJM8YzAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAAU3SURBVHhe7d17UFRVHAfw+1f6T+lMU3/0EDILG6fASiHR2p0p2RlrtBIUfADaTEGPP2C0ragpAmwSWCMdpxQRxaXR2PXBUKggZGmJ5AMfCAgEqLQgEJovxG/33N172Lt7KZ1xxrun3x+f3XvO73fPXs737gyzf+xKAIZVXFyMV2fHICJyGh54aAwkSSIGwfJguVhmvIKCggI5Lv0MGd1JJjg4GHPmzoXdbkdlZSVONzdj8MYNYhAsD5aLw+FAfEICWF7Dhe03kSCfEBVlQXvHGQxcHyQBoqv7POLj42GxWOQYtZlqBqFhYViTvw5XBwZJgNpRWobwiAg5Tp2Q2Tv427X5uHztOglw5bsq8ILJJMfqE/L0qChcvDJABJG6ZCmyli1TglYCDgoKRmNrG/ovXyOCcPX246nQUHfI7D+yeQsWou/SVSKYT9MzYLVaIc2cOQsbi7eg5+JVIpjqfQcQGhoGKSRkPPbXHkH3hStEMGe6+jBy5EhIo0aPRmN7J1z9V4iAPJ+QSejsu0wExUM+23uJCIqH3NFziQiKh9zW/TcRFA+5tesiERQPudl1gQiKh9zU2U8ExUNuONdPBMVDrj/7FxEUD/l4Rx8RFA+5rr2XCIqHfKSthwiKh3yotYcIiodc23KeCIqHXNPc/T+wDQukt7Fat+btZvsCAw/5t6Yu46u24Tl2wW849et+nJjPwtKt3azbscadxUPe39hleM5MM8IzbZgnb/oqnbo/5y30Dud2rHFn8ZB/aXAZXC2sU82wVrmwcrGEuCKfepUN4e4/RsHqrE8dS1IyVjY4Eac8q/2eY4VXzevYdw2rfKNJi50+r+u9jvF4rl/C3nqXsVXYMHmqDVvY8YZkSIucXnUnYiUz3q8Y6o3NqPXMJyNP0zc0zlskIXaDp6ZZ07vv39fYkmHGZOW11Lrx8JCrT/5paCvkQNhmusdso81YWuGpe26AzV79Q33JWDHcuNAdLDtm68cW6vX5ruF9LT7XYVA85D0nOg3MgTnuC9WY9PlBd313LiZF5uI73fOSYPvPsfysOd+7z/ccmfp665Pkm8QxNG9Qnv2SUHHsnHGtkzczsUQ7tzNH3ugc2JVxCWIkE1J3DtVi0mv855VxEnLVNWT2dBNiEpMwSenX6/Ndwy03kW2c/7wR8ZB31Z0zrOwECdHrfOdrkBJpQkq5Z1wuh+7+Y5TNV+eLPjN55pKQXVeCaOVZXUM9z2sdhbZPu4anh9148k1WpI4NzH3t8kP50bPkFiyXb7zZ+fo1o+Ehlx0+Q27W2rcgTcnGer2aAfGQSw91EEHxkLf/3k4ExUPeerCdCIqH7KhpI4LiIX9/4A8iKB7y5l9biaB4yMX7W4igeMib9rUQQfGQN/7cTATFQy7ce5oIiodc8FMTERQPOb+qkQiKh7xmTyMRFA/5m8oGIigl5LtGjEBe2VGs3n2KCEgJ+cGHxyC9qBKrdp0iAlJCNr/4EpIy1+DrnfVEMGn5ZRg77nFImVlZsMS+ia9+rCeCiUtdpnwDsvJ912MeGYfl2w7D9sNJIpBnnp8Op9PpDvnDtI/x8sJ3kVN2gggi/oMczHo92v2l5uyBCZ8yDe9k27G89DgJcJ9srEbQ2MeUgDUhM4+On4DU1TvwxY5jJEB9tKEKE54e5tdkVCETnsSMxBRkbT9GAkx8Wp7mHazSDFQpS5biiYkReO29DFgL9iBjax0xqLRN+xCT+iWeNc9QftLPN0vGb8Jb3PyFuPe+++Uu5fNPYkB33zNK+T1N9ruavvm5QfoHxiSVcEUss8QAAAAASUVORK5CYII=";
+
+      var throwCard = function ( x, y ) {
+
+        id > 0 ? id -- : id = 0;
+
+        var particle = new Particle( id, x, y, Math.floor( Math.random() * 6 - 3 ) * 2, - Math.random() * 16 );
+        particles.push( particle );
+
+      }
+
+      document.addEventListener( 'mousedown', function ( event ) {
+
+        event.preventDefault();
+
+        document.addEventListener( 'mousemove', onMouseMove, false );
+
+      }, false );
+
+      document.addEventListener( 'mouseup', function ( event ) {
+
+        event.preventDefault();
+
+        throwCard( event.clientX, event.clientY );
+
+        document.removeEventListener( 'mousemove', onMouseMove, false );
+
+      }, false );
+
+      function onMouseMove( event ) {
+
+        event.preventDefault();
+
+        throwCard( event.clientX, event.clientY );
+
+      }
+
+      document.addEventListener( 'touchstart', function ( event ) {
+
+        event.preventDefault();
+
+        for ( var i = 0; i < event.changedTouches.length; i ++ ) {
+
+          throwCard( event.changedTouches[ 0 ].pageX, event.changedTouches[ 0 ].pageY );
+
+        }
+
+      }, false );
+
+      document.addEventListener( 'touchmove', function ( event ) {
+
+        event.preventDefault();
+
+        for ( var i = 0; i < event.touches.length; i ++ ) {
+
+          throwCard( event.touches[ i ].pageX, event.touches[ i ].pageY );
+
+        }
+
+      }, false );
+
+      setInterval( function () {
+
+        var i = 0, l = particles.length;
+
+        while ( i < l ) {
+
+          particles[ i ].update() ? i ++ : l --;
+
+        }
+
+      }, 1000 / 60 );
+
+    </script>
+  </body>
+</html>
