@@ -4,18 +4,18 @@ permalink: /:categories/:year/:month/:day/:title
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "CNAME", "Gemfile", "Gemfile.lock", ".gitignore"]
 
-pygments: true
+highlighter: rouge
 
 markdown: kramdown
 
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : "bennyvanreeven.nl"
+title : "Benny van Reeven"
 tagline: L33t h4x0r stuffz
 author :
   name : Benny van Reeven
-  email : info@bennyvanreeven.nl
+  email : bvanreeven@gmail.com
   github : bvanreeven
   twitter : bvanreeven
   feedburner : feedname
@@ -28,7 +28,7 @@ author :
 # Else if you are pushing to username.github.io, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://bennyvanreeven.nl
+production_url : bvanreeven
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
